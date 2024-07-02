@@ -15,7 +15,7 @@ will randomly generate a dataset of 1 million double values and write it to two 
 
 These three programs are basically the same program with 
 1. a typedef changed to set ItemType to the desired data type, 
-2. constants LOW and HI set appropriately for the data type, and
+2. constants LOW and HI (that bound the range of random values) set appropriately for the data type, and
 3. format-strings tweaked as needed for that data type.
 
 To generate a random dataset of a different data type, use any of these as a model.
