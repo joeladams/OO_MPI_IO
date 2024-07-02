@@ -21,8 +21,7 @@ Usage example:
       MPI_Comm_size(&numProcs, MPI_COMM_WORLD);
       ...
       ParallelReader<double> reader(inFileName, MPI_DOUBLE, id, numProcs);
-      std::vector<double> vec;
-      reader.readChunk(vec);
+      std::vector<double> vec = reader.readChunk();
       reader.close();
       // vec now contains this MPI process's "chunk" of the values in fileName
       for (int i = 0; i < vec.size(); ++i) {
