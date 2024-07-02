@@ -17,4 +17,4 @@ These three programs are basically the same program with
 1. a typedef changed to set ItemType to the desired data type, and
 2. format-strings tweaked as needed for that data type.
 
-If a different data type is desired, use these as a model.
+To generate a random dataset of a different data type, use any of these as a model.
