@@ -3,16 +3,18 @@ The files in this folder each generate text- and binary-formatted files, but for
 - `genDoubles.cpp` generates a random double dataset
 - `genInts.cpp` generates a random int dataset
 
-The provided `Makefile` should build all three programs; just clone/download the folder and enter `make`.
+The provided `Makefile` should build all three programs; just download this folder and enter `make`.
 
 Once built, a command such as:
 
     ./genDoubles 1000000 1M_doubles
 
-will generate two files:
-- `1M_doubles.bin`, a binary file containing 1 million binary-formatted double values
-- `1M_doubles.txt`, a text file containing 1000000 on its first line, followed by 1 million text-formatted double values, each on its own line.
+will randomly generate a dataset of 1 million double values and write it to two files:
+- `1M_doubles.bin`, a binary file containing the dataset in binary format.
+- `1M_doubles.txt`, a text file containing 1000000 on its first line, followed by the dataset in text format, with each data value on a separate line.
 
-These three programs are basically the same program, with a typedef being used to set ItemType to the desired data type, and format-strings tweaked as needed for that data type.
+These three programs are basically the same program with 
+1. a typedef changed to set ItemType to the desired data type, and
+2. format-strings tweaked as needed for that data type.
 
 If a different data type is desired, use these as a model.
