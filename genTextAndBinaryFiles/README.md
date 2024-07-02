@@ -14,7 +14,8 @@ will randomly generate a dataset of 1 million double values and write it to two 
 - `1M_doubles.txt`, a text file containing 1000000 on its first line, followed by the dataset in text format, with each data value on a separate line.
 
 These three programs are basically the same program with 
-1. a typedef changed to set ItemType to the desired data type, and
-2. format-strings tweaked as needed for that data type.
+1. a typedef changed to set ItemType to the desired data type, 
+2. constants LOW and HI set appropriately for the data type, and
+3. format-strings tweaked as needed for that data type.
 
 To generate a random dataset of a different data type, use any of these as a model.

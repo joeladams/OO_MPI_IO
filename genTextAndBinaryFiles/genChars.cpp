@@ -23,8 +23,8 @@ typedef char Item;
 vector<Item> generateData(unsigned numItems, Item lo, Item hi);
 
 int main(int argc, char** argv) {
-    const Item LOW = 65;
-    const Item HIGH = 91;
+    const Item LOW = 65;            // 'A'
+    const Item HIGH = 91;           // 'Z'
 
     if (argc != 3) {
 	cerr << "\nUsage: ./generate <N> <fileName>\n\n";
