@@ -31,4 +31,4 @@ Usage example:
     }
 
 We might visualize this as follows:
-<img src="/assets/images/ParallelInput.png" alt="Reading from a file in parallel" >
+<img src="/assets/images/ParallelInput.png" alt="Reading from a file in parallel" width="1301" height="374" >
