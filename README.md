@@ -15,10 +15,10 @@ Usage example:
       ...
       int id = 0;
       int numProcs = 0;
-      char* inFileName = getCmdLineArgs(argc, argv);
       MPI_Init(&argc, &argv);
       MPI_Comm_rank(&id, MPI_COMM_WORLD);
       MPI_Comm_size(&numProcs, MPI_COMM_WORLD);
+      char* inFileName = getCmdLineArgs(argc, argv);
       ...
       ParallelReader<double> reader(inFileName, MPI_DOUBLE, id, numProcs);
       std::vector<double> vec = reader.readChunk();
