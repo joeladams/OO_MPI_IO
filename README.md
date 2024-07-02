@@ -1,6 +1,8 @@
 # OO_MPI_IO
 OO_MPI_IO provides a hierarchy of C++ templates that simplify parallel I/O by building on (and hiding the complexity of) MPI-IO. For ease of use, all functionality is provided by a single file OO_MPI_IO.h; just copy it into your project folder, add the directive #include "OO_MPI_IO.h" to your MPI source code, and you can begin using its ParallelReader or ParallelWriter abstractions in your project.
 
+Note: Input files of char data can be text-formatted; all others (e.g., numeric data) must be binary-formatted. 
+
 Usage example:
 
     ...
