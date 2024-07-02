@@ -23,7 +23,7 @@ Usage example:
       ParallelReader<double> reader(inFileName, MPI_DOUBLE, id, numProcs);
       std::vector<double> vec = reader.readChunk();
       reader.close();
-      // vec now contains this MPI process's "chunk" of the values in fileName
+      // vec now contains this MPI process's "chunk" of fileName's values
       for (int i = 0; i < vec.size(); ++i) {
          doSomethingWith(vec[i]);
       }
