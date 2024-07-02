@@ -1,9 +1,11 @@
 The files in this folder each generate text- and binary-formatted files, but for different data types:
-- `genChars.cpp` generates char data
-- `genDoubles.cpp` generates double data
-- `genInts.cpp` generates int data
+- `genChars.cpp` generates a random char dataset
+- `genDoubles.cpp` generates a random double dataset
+- `genInts.cpp` generates a random int dataset
 
-The provided `Makefile` should build all three programs. Once built, a command such as:
+The provided `Makefile` should build all three programs; just clone/download the folder and enter `make`.
+
+Once built, a command such as:
 
     ./genDoubles 1000000 1M_doubles
 
