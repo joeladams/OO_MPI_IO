@@ -34,9 +34,11 @@ Usage example:
       MPI_Comm_size(&numProcs, MPI_COMM_WORLD);
       char* inFileName = getCmdLineArgs(argc, argv);
       ...
+      
       ParallelReader<double> reader(inFileName, MPI_DOUBLE, id, numProcs);
       std::vector<double> vec = reader.readChunk();
       reader.close();
+      
       // vec now contains this MPI process's "chunk" of fileName's values
       for (int i = 0; i < vec.size(); ++i) {
          doSomethingWith(vec[i]);
