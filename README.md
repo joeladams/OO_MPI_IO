@@ -3,7 +3,7 @@
 <img align="right" src="/assets/images/OO_MPI_IO.png" alt="The OO_MPI_IO hierarchy" 
       width="246" height="274" >
 
-To simplify parallel I/O, **OO_MPI_IO** provides a minimal hierarchy of three C++ class-templates that build on MPI-IO to hide its complexity. 
+To simplify parallel I/O, **OO_MPI_IO** provides a minimal C++ hierarchy of three class-templates that build on MPI-IO to hide its complexity. 
 For ease of use, all functionality is provided by a single file *OO_MPI_IO.h*; to use it, 
 just download and copy it into your project folder, add the directive `#include "OO_MPI_IO.h"` to your MPI source code, 
 and you can begin using its `ParallelReader` or `ParallelWriter` abstractions in your project. 
