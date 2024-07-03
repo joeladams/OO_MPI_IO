@@ -4,12 +4,12 @@
       width="246" height="274" >
 
 To simplify parallel I/O, **OO_MPI_IO** provides a minimal hierarchy of three C++ class-templates that build on MPI-IO to hide its complexity. 
-For ease of use, all functionality is provided by a single file *OO_MPI_IO.h*; 
-just copy it into your project folder, add the directive `#include "OO_MPI_IO.h"` to your MPI source code, 
+For ease of use, all functionality is provided by a single file *OO_MPI_IO.h*; to use it, 
+just download and copy it into your project folder, add the directive `#include "OO_MPI_IO.h"` to your MPI source code, 
 and you can begin using its `ParallelReader` or `ParallelWriter` abstractions in your project. 
 
-To illustrate, we might visualize P MPI processes logically dividing a binary input file *F.bin* 
-into "chunks" and then reading those chunks in parallel, as shown below:
+To illustrate how parallel input works, the following diagram shows P MPI processes logically dividing a binary input file *F.bin* 
+into "chunks"; each process then reads its chunk in parallel with the other processes:
 
 <img src="/assets/images/ParallelInput.png" alt="Reading from a file in parallel" 
       width="350" height="125" >
