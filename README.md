@@ -8,7 +8,7 @@ For ease of use, all functionality is provided by a single file *OO_MPI_IO.h*; t
 just download and copy it into your project folder, add the directive `#include "OO_MPI_IO.h"` to your MPI source code, 
 and you can begin using its `ParallelReader` or `ParallelWriter` abstractions in your project. 
 
-To illustrate how parallel input works, the following diagram shows P MPI processes logically dividing a binary input file *F.bin* 
+The following diagram illustrates parallel input: a group of P MPI processes collectively divide a binary input file *F.bin* 
 into "chunks"; each process then reads its chunk in parallel with the other processes:
 
 <img src="/assets/images/ParallelInput.png" alt="Reading from a file in parallel" 
