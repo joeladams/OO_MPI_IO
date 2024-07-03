@@ -7,18 +7,21 @@ To simplify parallel I/O, **OO_MPI_IO** provides a minimal hierarchy of three C+
 For ease of use, all functionality is provided by a single file *OO_MPI_IO.h*; 
 just copy it into your project folder, add the directive `#include "OO_MPI_IO.h"` to your MPI source code, 
 and you can begin using its `ParallelReader` or `ParallelWriter` abstractions in your project. 
+
 To illustrate, we might visualize P MPI processes logically dividing a binary input file *F.bin* 
 into "chunks" and then reading those chunks in parallel, as shown below:
 
 <img src="/assets/images/ParallelInput.png" alt="Reading from a file in parallel" 
       width="350" height="125" >
 
-Note: OO_MPI_IO expects files (especially numeric data) to be binary-formatted. See the folder *genTextAndBinaryFiles* for programs that illustrate how to generate such files. See also the folder *tests* for examples that show how to use OO_MPI_IO.
+Note: OO_MPI_IO expects data files (especially numeric data) to be in binary-format. 
+See the folder *genTextAndBinaryFiles* for programs that illustrate how to generate such files. 
+See also the folder *tests* for examples that show how to use OO_MPI_IO.
 
 Usage example:
 
     ...
-    #include "OO_MPI_IO.h"
+    **#include "OO_MPI_IO.h"**
     ...
     int main(int argc, char** argv) {
       ...
