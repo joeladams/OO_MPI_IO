@@ -14,7 +14,7 @@ into "chunks" and then reading those chunks in parallel, as shown below:
 <img src="/assets/images/ParallelInput.png" alt="Reading from a file in parallel" 
       width="350" height="125" >
 
-Note: OO_MPI_IO expects data files (especially numeric data) to be in binary-format. 
+Note: OO_MPI_IO expects data files (especially numeric data) to be in binary format. 
 See the folder *genTextAndBinaryFiles* for programs that illustrate how to generate such files. 
 See also the folder *tests* for examples that show how to use OO_MPI_IO.
 
