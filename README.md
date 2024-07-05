@@ -9,12 +9,12 @@ just download and copy it into your project folder, add the directive `#include 
 and you can begin using its `ParallelReader` or `ParallelWriter` abstractions in your project. 
 
 The following diagram illustrates parallel input: a group of P MPI processes collectively divide a binary input file *F.bin* 
-into "chunks"; each process then reads its chunk in parallel with the other processes:
+into "chunks"; each process then simultaneously reads its chunk in parallel with the other processes:
 
 <img src="/assets/images/ParallelInput.png" alt="Reading from a file in parallel" 
       width="350" height="125" >
 
-Each process can then process its "chunk" of the data independently, after which those partial results can be combined into a total result using an MPI collective operation such as `MPI_Reduce()` or `MPI_Gather()` or ...
+Each process can then examine its "chunk" of the data independently, producing a partial result. At the end, the MPI processes can combine those partial results into a total result using an MPI collective operation such as `MPI_Reduce()` or `MPI_Gather()` or ...
 
 Note: OO_MPI_IO expects data files (especially numeric data) to be in binary format. 
 See the folder *genTextAndBinaryFiles* for programs that illustrate how to generate such files. 
