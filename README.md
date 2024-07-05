@@ -14,7 +14,7 @@ into "chunks"; each process then simultaneously reads its chunk in parallel with
 <img src="/assets/images/ParallelInput.png" alt="Reading from a file in parallel" 
       width="350" height="125" >
 
-Each process can then examine its "chunk" of the data independently, producing a partial result. At the end, the MPI processes can combine those partial results into a total result using an MPI collective operation such as `MPI_Reduce()` or `MPI_Gather()` or ...
+Each process can then examine its "chunk" of the data independently, producing a partial result. Afterwards, the MPI processes can combine those partial results into a total result using an MPI collective operation such as `MPI_Reduce()` or `MPI_Gather()` or ...
 
 Note: OO_MPI_IO expects data files (especially numeric data) to be in binary format. 
 See the folder *genTextAndBinaryFiles* for programs that illustrate how to generate such files. 
