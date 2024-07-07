@@ -1,7 +1,6 @@
 User-agent: * 
 Allow:    /README.md
-Allow:    /robots.txt
-Allow:    /LICENSE.txt
+Allow:    /*.txt
 Disallow: /assets/*
 Disallow: /genTextAndBinaryFiles/*
 Disallow: /tests/* 
