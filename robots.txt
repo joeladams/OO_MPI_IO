@@ -1,2 +1,8 @@
 User-agent: * 
-Disallow: / 
+Allow:    /README.md
+Allow:    /robots.txt
+Allow:    /LICENSE.txt
+Disallow: /assets/*
+Disallow: /genTextAndBinaryFiles/*
+Disallow: /tests/* 
+Disallow: /OO_MPI_IO.h
