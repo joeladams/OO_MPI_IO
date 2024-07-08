@@ -1,4 +1,4 @@
-#genTextAndBinaryFiles
+# genTextAndBinaryFiles
 
 The files in this folder each generate text- and binary-formatted files, but for different data types:
 - *genChars.cpp* generates a random char dataset
