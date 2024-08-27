@@ -219,6 +219,7 @@ public:
   ParallelReader(const std::string& fileName, MPI_Datatype mpiType,
                    int rank, int numProcs);
   std::vector<ItemType> readChunk();
+  std::vector<ItemType> readChunk(unsigned numExtras);
 };
 
 /* ParallelReader constructor
@@ -281,7 +282,43 @@ ParallelReader<ItemType>::readChunk() {
    return v;
 }
 
+template <class ItemType>
+std::vector<ItemType>
+ParallelReader<ItemType>::readChunk(unsigned numExtras) {
+   // Note: We could compute the following attributes in the constructor,
+   //  but do them here for symmetry with ParallelWriter
+   MPI_Offset fileSize;
+   MPI_File_get_size(OO_MPI_IO_Base<ItemType>::getFileHandle(), &fileSize);
+   OO_MPI_IO_Base<ItemType>::setFileSize(fileSize);
+   OO_MPI_IO_Base<ItemType>::setNumItemsInFile( fileSize / OO_MPI_IO_Base<ItemType>::getItemSize() );
 
+   int id = OO_MPI)Base<ItemType>::getRank();
+   int numProcs = OO_MPI)Base<ItemType>::getnumProcs();
+   long numItemsInFile = OO_MPI_IO_Base<ItemType>::getNumItemsInFile();
+   long start = 0, stop = 0;
+   getChunkStartStopValues(id, numProcs, numItemsInFile, start, stop);
+   if (id < numProcs-1) {
+      stop += numExtras;
+   }
+   if (stop > numItemsInFile ) {
+      stop = numItemsInFile;
+   }
+   OO_MPI_IO_Base<ItemType>::setChunkSize(stop - start);
+   OO_MPI_IO_Base<ItemType>::setFirstItemOffset(start);
+   OO_MPI_IO_Base<ItemType>::setFirstByteOffset(start * OO_MPI_IO_Base<ItemType>::getItemSize());
+
+   MPI_Status status;
+   std::vector<ItemType> v( OO_MPI_IO_Base<ItemType>::getChunkSize() );
+   int readResult = MPI_File_read_at(OO_MPI_IO_Base<ItemType>::getFileHandle(),
+                                OO_MPI_IO_Base<ItemType>::getFirstByteOffset(),
+                                v.data(),
+                                OO_MPI_IO_Base<ItemType>::getChunkSize(),
+                                OO_MPI_IO_Base<ItemType>::getMPIType(),
+                                &status);
+   checkResult(OO_MPI_IO_Base<ItemType>::getRank(), readResult);
+
+   return v;
+}
 
 /*******************************************************************
  * The ParallelWriter template provides an abstraction to hide the
