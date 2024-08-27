@@ -292,8 +292,8 @@ ParallelReader<ItemType>::readChunk(unsigned numExtras) {
    OO_MPI_IO_Base<ItemType>::setFileSize(fileSize);
    OO_MPI_IO_Base<ItemType>::setNumItemsInFile( fileSize / OO_MPI_IO_Base<ItemType>::getItemSize() );
 
-   int id = OO_MPI)Base<ItemType>::getRank();
-   int numProcs = OO_MPI)Base<ItemType>::getnumProcs();
+   int id = OO_MPI_IO_Base<ItemType>::getRank();
+   int numProcs = OO_MPI_IO_Base<ItemType>::getNumProcs();
    long numItemsInFile = OO_MPI_IO_Base<ItemType>::getNumItemsInFile();
    long start = 0, stop = 0;
    getChunkStartStopValues(id, numProcs, numItemsInFile, start, stop);

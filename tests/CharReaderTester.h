@@ -41,21 +41,18 @@ void CharReaderTester::runTests() {
    runFileTests(reader);
    runReadTests(reader);
    runChunkTests(reader);
-   if (id == MASTER) cout << " 5 " << flush;
 
    ParallelReader<char> 
      reader1("./files/6chars.bin", MPI_CHAR, id, numProcs);
    runFileTests1(reader1, 1);
    runReadTests1(reader1, 1);
    runChunkTests1(reader1, 1);
-   if (id == MASTER) cout << " 6a " << flush;
 
    ParallelReader<char> 
      reader2("./files/6chars.bin", MPI_CHAR, id, numProcs);
    runFileTests1(reader2, 2);
    runReadTests1(reader2, 2);
    runChunkTests1(reader2, 2);
-   if (id == MASTER) cout << " 6b " << flush;
 
    if (id == MASTER) cout << "All char tests passed!\n" << endl;
 }
@@ -211,7 +208,7 @@ runReadTests(ParallelReader<char>& reader) {
    }
 
    MPI_Barrier(MPI_COMM_WORLD);
-   if (id == MASTER) cout << " Passed!" << endl;
+   if (id == MASTER) cout << " Passed (5 chars)!" << endl;
 }
 
 void CharReaderTester::
@@ -353,9 +350,13 @@ runReadTests1(ParallelReader<char>& reader, unsigned numExtras) {
 
    long start = -1, stop = -1;
    getChunkStartStopValues(id, numProcs, SIZE, start, stop);
-   if (id < numProcesses-1) { 
+   if (id < numProcs-1) { 
       stop += numExtras; 
    }
+   if (stop > SIZE) {
+      stop = SIZE;
+   }
+      
 // printf("\n\nv1.size(): %lu, (stop-start): %ld\n\n", v1.size(), (stop-start));
    assert( v1.size() == (stop - start) );
    int j = start;
@@ -367,5 +368,6 @@ runReadTests1(ParallelReader<char>& reader, unsigned numExtras) {
    }
 
    MPI_Barrier(MPI_COMM_WORLD);
-   if (id == MASTER) cout << " Passed!" << endl;
+   if (id == MASTER) cout << " Passed (6 chars, "
+                         << numExtras << " extras)!" << endl;
 }
