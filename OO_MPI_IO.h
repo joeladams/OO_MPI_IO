@@ -282,6 +282,14 @@ ParallelReader<ItemType>::readChunk() {
    return v;
 }
 
+/* method to read a chunk from the file plus a few items from
+ *  the next process's chunk (for searching problems).
+ * @Parameter: numExtras, an unsigned.
+ * Return: a vector containing the values of this process's chunk
+ *          plus numExtras values of the next process's chunk.
+ * Note: vector was chosen as the return-type b/c it uses
+ *         contiguous memory and it provides a move-constructor.
+ */
 template <class ItemType>
 std::vector<ItemType>
 ParallelReader<ItemType>::readChunk(unsigned numExtras) {
