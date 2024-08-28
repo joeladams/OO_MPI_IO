@@ -174,7 +174,7 @@ void getChunkStartStopValues(int id, int numProcs, const unsigned REPS,
                               long& start, long& stop)
 {
    // check precondition before proceeding
-   if (numProcs > REPS) {
+   if ((unsigned)numProcs > REPS) {
       if (id == 0) {
          printf("\n*** Number of MPI processes (%u) exceeds REPS (%u)\n",
                  numProcs, REPS);
@@ -194,7 +194,7 @@ void getChunkStartStopValues(int id, int numProcs, const unsigned REPS,
    // If remainder != 0, chunkSize1 = chunk-size for p_0..p_remainder-1
    //   but for processes p_remainder..p_numProcs-1
    //   recompute begin and end using a smaller-by-1 chunk size, chunkSize2.
-   if (remainder > 0 && id >= remainder) {
+   if (remainder > 0 && (unsigned)id >= remainder) {
      unsigned chunkSize2 = chunkSize1 - 1;
      unsigned remainderBase = remainder * chunkSize1;
      unsigned processOffset = (id-remainder) * chunkSize2;
