@@ -270,13 +270,29 @@ ParallelReader<ItemType>::readChunk() {
    OO_MPI_IO_Base<ItemType>::setFirstByteOffset(start * OO_MPI_IO_Base<ItemType>::getItemSize());
 
    MPI_Status status;
-   std::vector<ItemType> v( OO_MPI_IO_Base<ItemType>::getChunkSize() );
-   int readResult = MPI_File_read_at(OO_MPI_IO_Base<ItemType>::getFileHandle(), 
-                                OO_MPI_IO_Base<ItemType>::getFirstByteOffset(), 
-                                v.data(),
-                                OO_MPI_IO_Base<ItemType>::getChunkSize(), 
-                                OO_MPI_IO_Base<ItemType>::getMPIType(), 
-                                &status);
+   unsigned long itemsRead = 0;
+   unsigned long itemsToRead = OO_MPI_IO_Base<ItemType>::getChunkSize();
+   std::vector<ItemType> v( itemsToRead );
+   int readResult = 0;
+   // handle very large files where chunkSize > INT_MAX
+   while (itemsToRead > INT_MAX) {
+      readResult = MPI_File_read_at(OO_MPI_IO_Base<ItemType>::getFileHandle(), 
+                      OO_MPI_IO_Base<ItemType>::getFirstByteOffset()+itemsRead, 
+                      v.data()+itemsRead,
+                      INT_MAX, 
+                      OO_MPI_IO_Base<ItemType>::getMPIType(), 
+                      &status);
+      checkResult(OO_MPI_IO_Base<ItemType>::getRank(), readResult);
+      itemsRead += INT_MAX;
+      itemsToRead -= INT_MAX;
+   }
+   // read in remaining Items (or if itemsToRead <= INT_MAX initially)
+   readResult = MPI_File_read_at(OO_MPI_IO_Base<ItemType>::getFileHandle(), 
+                    OO_MPI_IO_Base<ItemType>::getFirstByteOffset()+itemsRead, 
+                    v.data()+itemsRead,
+                    itemsToRead, 
+                    OO_MPI_IO_Base<ItemType>::getMPIType(), 
+                    &status);
    checkResult(OO_MPI_IO_Base<ItemType>::getRank(), readResult);
 
    return v;
@@ -316,13 +332,29 @@ ParallelReader<ItemType>::readChunk(unsigned numExtras) {
    OO_MPI_IO_Base<ItemType>::setFirstByteOffset(start * OO_MPI_IO_Base<ItemType>::getItemSize());
 
    MPI_Status status;
-   std::vector<ItemType> v( OO_MPI_IO_Base<ItemType>::getChunkSize() );
-   int readResult = MPI_File_read_at(OO_MPI_IO_Base<ItemType>::getFileHandle(),
-                                OO_MPI_IO_Base<ItemType>::getFirstByteOffset(),
-                                v.data(),
-                                OO_MPI_IO_Base<ItemType>::getChunkSize(),
-                                OO_MPI_IO_Base<ItemType>::getMPIType(),
-                                &status);
+   unsigned long itemsRead = 0;
+   unsigned long itemsToRead = OO_MPI_IO_Base<ItemType>::getChunkSize();
+   std::vector<ItemType> v( itemsToRead );
+   int readResult = 0;
+   // handle very large files where chunkSize > INT_MAX
+   while (itemsToRead > INT_MAX) {
+      readResult = MPI_File_read_at(OO_MPI_IO_Base<ItemType>::getFileHandle(), 
+                      OO_MPI_IO_Base<ItemType>::getFirstByteOffset()+itemsRead, 
+                      v.data()+itemsRead,
+                      INT_MAX, 
+                      OO_MPI_IO_Base<ItemType>::getMPIType(), 
+                      &status);
+      checkResult(OO_MPI_IO_Base<ItemType>::getRank(), readResult);
+      itemsRead += INT_MAX;
+      itemsToRead -= INT_MAX;
+   }
+   // read in remaining Items (or if itemsToRead <= INT_MAX initially)
+   readResult = MPI_File_read_at(OO_MPI_IO_Base<ItemType>::getFileHandle(), 
+                    OO_MPI_IO_Base<ItemType>::getFirstByteOffset()+itemsRead, 
+                    v.data()+itemsRead,
+                    itemsToRead, 
+                    OO_MPI_IO_Base<ItemType>::getMPIType(), 
+                    &status);
    checkResult(OO_MPI_IO_Base<ItemType>::getRank(), readResult);
 
    return v;
@@ -405,13 +437,27 @@ void ParallelWriter<ItemType>::writeChunk(const std::vector<ItemType>& v) {
    OO_MPI_IO_Base<ItemType>::setFirstItemOffset(start);
    OO_MPI_IO_Base<ItemType>::setFirstByteOffset(start * itemSize);
    MPI_Status status;
-   int writeResult = 
-          MPI_File_write_at(OO_MPI_IO_Base<ItemType>::getFileHandle(), 
-                            OO_MPI_IO_Base<ItemType>::getFirstByteOffset(), 
-                            v.data(),
-                            OO_MPI_IO_Base<ItemType>::getChunkSize(), 
-                            OO_MPI_IO_Base<ItemType>::getMPIType(), 
-                            &status);
+   unsigned long itemsWritten = 0;
+   unsigned long itemsToWrite = OO_MPI_IO_Base<ItemType>::getChunkSize();
+   int writeResult = 0;
+   while (itemsToWrite > INT_MAX) {
+     writeResult = MPI_File_write_at(OO_MPI_IO_Base<ItemType>::getFileHandle(), 
+                   OO_MPI_IO_Base<ItemType>::getFirstByteOffset()+itemsWritten, 
+                    v.data()+itemsWritten,
+                    INT_MAX, 
+                    OO_MPI_IO_Base<ItemType>::getMPIType(), 
+                    &status);
+     checkResult(OO_MPI_IO_Base<ItemType>::getRank(), writeResult);
+     itemsWritten += INT_MAX;
+     itemsToWrite -= INT_MAX;
+   }
+
+   writeResult = MPI_File_write_at(OO_MPI_IO_Base<ItemType>::getFileHandle(), 
+                   OO_MPI_IO_Base<ItemType>::getFirstByteOffset()+itemsWritten, 
+                   v.data()+itemsWritten,
+                   itemsToWrite, 
+                   OO_MPI_IO_Base<ItemType>::getMPIType(), 
+                   &status);
    checkResult(OO_MPI_IO_Base<ItemType>::getRank(), writeResult);
 }
 
