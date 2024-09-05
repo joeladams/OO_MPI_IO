@@ -245,7 +245,7 @@ ParallelReader(const std::string& fileName, MPI_Datatype mpiType,
 : OO_MPI_IO_Base<ItemType>(fileName, MPI_MODE_RDONLY, mpiType, rank, numProcs)
 { }
 
-/* method to read a chunk from the file
+/* method to read a chunk from the file (in its entirety).
  * Return: a vector containing the values of this process' chunk.
  * Note: vector was chosen as the return-type b/c it uses
  *         contiguous memory and it provides a move-constructor.
@@ -298,13 +298,16 @@ ParallelReader<ItemType>::readChunk() {
    return v;
 }
 
-/* method to read a chunk from the file plus a few items from
- *  the next process's chunk (for searching problems).
+/* method to read a chunk from the file (in its entirety)
+ *  plus a few items from the next process's chunk, for searching problems.
  * @Parameter: numExtras, an unsigned.
  * Return: a vector containing the values of this process's chunk
  *          plus numExtras values of the next process's chunk.
- * Note: vector was chosen as the return-type b/c it uses
- *         contiguous memory and it provides a move-constructor.
+ *
+ * Note: Giving numExtras a default parameter value would let us eliminate
+ *        the other readChunk() method and adhere to the DRY principle,
+ *        but defining each separately lets us more clearly explain
+ *        the difference between the two versions.
  */
 template <class ItemType>
 std::vector<ItemType>
