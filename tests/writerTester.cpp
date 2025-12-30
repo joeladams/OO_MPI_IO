@@ -16,9 +16,9 @@ int main(int argc, char** argv) {
 /*
    IntWriterTester iwt;
    iwt.runTests();
+*/
    CharWriterTester cwt;
    cwt.runTests();
-*/
 
    MPI_Finalize();
 }
