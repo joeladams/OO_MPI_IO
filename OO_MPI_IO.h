@@ -332,9 +332,9 @@ ParallelReader<ItemType>::readChunk() {
    MPI_Offset fileSize;
    MPI_File_get_size(OO_MPI_IO_Base<ItemType>::getFileHandle(), &fileSize);
    OO_MPI_IO_Base<ItemType>::setFileSize(fileSize);
-   if (std::is_same<ItemType, char>::value) {         // if ItemType is char
-      --fileSize;                                     // ignore EOF char
-   }
+//   if (std::is_same<ItemType, char>::value) {         // if ItemType is char
+//      --fileSize;                                     // ignore EOF char
+//   }
    OO_MPI_IO_Base<ItemType>::setNumItemsInFile( fileSize / OO_MPI_IO_Base<ItemType>::getItemSize() );
 
    long start = 0, stop = 0;
@@ -400,9 +400,9 @@ ParallelReader<ItemType>::readChunkPlus(unsigned numExtras) {
    MPI_Offset fileSize;
    MPI_File_get_size(OO_MPI_IO_Base<ItemType>::getFileHandle(), &fileSize);
    OO_MPI_IO_Base<ItemType>::setFileSize(fileSize);
-   if (std::is_same<ItemType, char>::value) {         // if ItemType is char
-      --fileSize;                                     // ignore EOF char
-   }
+//   if (std::is_same<ItemType, char>::value) {         // if ItemType is char
+//      --fileSize;                                     // ignore EOF char
+//   }
    OO_MPI_IO_Base<ItemType>::setNumItemsInFile( fileSize / OO_MPI_IO_Base<ItemType>::getItemSize() );
 
    long numItemsInFile = OO_MPI_IO_Base<ItemType>::getNumItemsInFile();

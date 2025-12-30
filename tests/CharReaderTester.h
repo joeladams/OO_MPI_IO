@@ -337,6 +337,8 @@ runReadTests1(ParallelReader<char>& reader, unsigned numExtras) {
    vector<char> v1 = reader.readChunkPlus(numExtras);
 
    assert( reader.getFileSize() == 6 );          // 1 x 6
+printf("NumItemsInFile: %ld\n", reader.getNumItemsInFile());
+fflush(stdout);
    assert( reader.getNumItemsInFile() == 6 );
    const int SIZE = reader.getNumItemsInFile();
    vector<char> v2;
