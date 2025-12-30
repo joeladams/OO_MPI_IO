@@ -62,8 +62,8 @@ runFileTests(const ParallelReader<char>& reader) {
    if (id == MASTER) cout << "- Running getter tests..." << flush;
    MPI_Barrier(MPI_COMM_WORLD);
 
-   assert( reader.getRank() == id );
-   assert( reader.getNumProcs() == numProcs );
+   assert( reader.getID() == id );
+   assert( reader.getNumPEs() == numProcs );
    assert( reader.getFileName() == "./files/5chars.bin" );
    assert( reader.getItemSize() == 1 );          // 1 byte in a char
 
@@ -183,6 +183,7 @@ runReadTests(ParallelReader<char>& reader) {
    vector<char> v1 = reader.readChunk();
 
    assert( reader.getFileSize() == 5 );          // 1 x 5
+printf("NumItemsInFile: %ld\n", reader.getNumItemsInFile());
    assert( reader.getNumItemsInFile() == 5 );
    const int SIZE = reader.getNumItemsInFile();
    vector<char> v2;
@@ -216,8 +217,8 @@ runFileTests1(const ParallelReader<char>& reader, unsigned numExtras) {
    if (id == MASTER) cout << "- Running getter tests..." << flush;
    MPI_Barrier(MPI_COMM_WORLD);
 
-   assert( reader.getRank() == id );
-   assert( reader.getNumProcs() == numProcs );
+   assert( reader.getID() == id );
+   assert( reader.getNumPEs() == numProcs );
    assert( reader.getFileName() == "./files/6chars.bin" );
    assert( reader.getItemSize() == 1 );          // 1 byte in a char
 
@@ -333,7 +334,7 @@ runReadTests1(ParallelReader<char>& reader, unsigned numExtras) {
    MPI_Barrier(MPI_COMM_WORLD);
    if (id == MASTER) cout << "- Running read() tests... " << flush;
 
-   vector<char> v1 = reader.readChunk(numExtras);
+   vector<char> v1 = reader.readChunkPlus(numExtras);
 
    assert( reader.getFileSize() == 6 );          // 1 x 6
    assert( reader.getNumItemsInFile() == 6 );

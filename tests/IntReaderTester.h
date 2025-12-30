@@ -48,8 +48,8 @@ runGetterTests(const ParallelReader<int>& reader) {
    if (id == MASTER) cout << "- Running getter tests..." << flush;
    MPI_Barrier(MPI_COMM_WORLD);
 
-   assert( reader.getRank() == id );
-   assert( reader.getNumProcs() == numProcs );
+   assert( reader.getID() == id );
+   assert( reader.getNumPEs() == numProcs );
    assert( reader.getFileName() == "./files/12ints.bin" );
    assert( reader.getItemSize() == 4 );          // 4 bytes in an int
 

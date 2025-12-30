@@ -7,6 +7,7 @@
 #include <iostream>                // cout, ...
 #include <fstream>                 // ifstream, ofstream, fstream
 #include <mpi.h>                   // MPI types
+#include <cassert>                 // assert()
 #include "../OO_MPI_IO.h"          // ParallelReader, ParallelWriter
 using namespace std;
 
@@ -48,8 +49,8 @@ runFileTests(const ParallelWriter<double>& writer) {
    if (id == MASTER) cout << "- Running getter tests..." << flush;
    MPI_Barrier(MPI_COMM_WORLD);
 
-   assert( writer.getRank() == id );
-   assert( writer.getNumProcs() == numProcs );
+   assert( writer.getID() == id );
+   assert( writer.getNumPEs() == numProcs );
    assert( writer.getFileName() == "./files/6doubles.bin" );
    assert( writer.getItemSize() == 8 );          // 8 bytes in a double
 

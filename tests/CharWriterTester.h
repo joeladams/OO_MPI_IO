@@ -48,8 +48,8 @@ runFileTests(const ParallelWriter<char>& writer) {
    if (id == MASTER) cout << "- Running getter tests..." << flush;
    MPI_Barrier(MPI_COMM_WORLD);
 
-   assert( writer.getRank() == id );
-   assert( writer.getNumProcs() == numProcs );
+   assert( writer.getID() == id );
+   assert( writer.getNumPEs() == numProcs );
    assert( writer.getFileName() == "./files/6chars.bin" );
    assert( writer.getItemSize() == 1 );          // 1 byte in a char
 

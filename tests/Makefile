@@ -10,10 +10,23 @@ INCL2  = ../OO_MPI_IO.h \
           DoubleWriterTester.h \
           CharWriterTester.h
 
-CC     = mpic++
-CFLAGS = -Wall -ansi -pedantic -std=c++11 
-LFLAGS1 = -o $(PROG1) 
-LFLAGS2 = -o $(PROG2) 
+SHELL  = /bin/bash
+
+CC     = mpicxx
+CFLAGS = -Wall -ansi -std=c++11
+
+OS     = $(shell uname -s)
+
+ifeq ($(OS), Darwin)
+CFLAGS += -Xclang -fopenmp
+LFLAGS += -lomp
+else
+CFLAGS += -pedantic
+LFLAGS += -fopenmp
+endif
+
+LFLAGS1 = $(LFLAGS) -o $(PROG1) 
+LFLAGS2 = $(LFLAGS) -o $(PROG2) 
 
 all: $(PROG1) $(PROG2)
 

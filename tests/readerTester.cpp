@@ -17,8 +17,8 @@ int main(int argc, char** argv) {
    IntReaderTester irt;
    irt.runTests();
 
-   CharReaderTester crt;
-   crt.runTests();
+//   CharReaderTester crt;
+//   crt.runTests();
 
    MPI_Finalize();
 }

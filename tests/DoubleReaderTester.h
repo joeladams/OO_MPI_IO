@@ -7,6 +7,7 @@
 #include <iostream>                // cout, ...
 #include <fstream>                 // ifstream, ofstream, fstream
 #include <mpi.h>                   // MPI types
+#include <cassert>                 // assert()
 #include "../OO_MPI_IO.h"          // ParallelReader
 using namespace std;
 
@@ -48,8 +49,8 @@ runFileTests(const ParallelReader<double>& reader) {
    if (id == MASTER) cout << "- Running getter tests..." << flush;
    MPI_Barrier(MPI_COMM_WORLD);
 
-   assert( reader.getRank() == id );
-   assert( reader.getNumProcs() == numProcs );
+   assert( reader.getID() == id );
+   assert( reader.getNumPEs() == numProcs );
    assert( reader.getFileName() == "./files/5doubles.bin" );
    assert( reader.getItemSize() == 8 );          // 8 bytes in a double
 

@@ -360,7 +360,7 @@ ParallelReader<ItemType>::readChunk() {
                       INT_MAX, 
                       OO_MPI_IO_Base<ItemType>::getMPIType(), 
                       &status);
-      checkResult(OO_MPI_IO_Base<ItemType>::getID(), readResult);
+      checkResult(readResult);
       itemsRead += INT_MAX;
       itemsToRead -= INT_MAX;
    }
@@ -371,7 +371,7 @@ ParallelReader<ItemType>::readChunk() {
                     itemsToRead, 
                     OO_MPI_IO_Base<ItemType>::getMPIType(), 
                     &status);
-   checkResult(OO_MPI_IO_Base<ItemType>::getID(), readResult);
+   checkResult(readResult);
 
    return v;
 }
@@ -535,7 +535,7 @@ void ParallelWriter<ItemType>::writeChunk(const std::vector<ItemType>& v) {
                     INT_MAX, 
                     OO_MPI_IO_Base<ItemType>::getMPIType(), 
                     &status);
-     checkResult(OO_MPI_IO_Base<ItemType>::getID(), writeResult);
+     checkResult(writeResult);
      itemsWritten += INT_MAX;
      itemsToWrite -= INT_MAX;
    }
@@ -546,7 +546,7 @@ void ParallelWriter<ItemType>::writeChunk(const std::vector<ItemType>& v) {
                    itemsToWrite, 
                    OO_MPI_IO_Base<ItemType>::getMPIType(), 
                    &status);
-   checkResult(OO_MPI_IO_Base<ItemType>::getID(), writeResult);
+   checkResult(writeResult);
 }
 
 #endif
