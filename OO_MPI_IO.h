@@ -332,6 +332,8 @@ ParallelReader<ItemType>::readChunk() {
    MPI_Offset fileSize;
    MPI_File_get_size(OO_MPI_IO_Base<ItemType>::getFileHandle(), &fileSize);
    OO_MPI_IO_Base<ItemType>::setFileSize(fileSize);
+   // Note: EOF char seems inconsistent on different platforms;
+   //  if char tests fail and off-by-one, uncomment the next 3 lines 
 //   if (std::is_same<ItemType, char>::value) {         // if ItemType is char
 //      --fileSize;                                     // ignore EOF char
 //   }
@@ -400,6 +402,8 @@ ParallelReader<ItemType>::readChunkPlus(unsigned numExtras) {
    MPI_Offset fileSize;
    MPI_File_get_size(OO_MPI_IO_Base<ItemType>::getFileHandle(), &fileSize);
    OO_MPI_IO_Base<ItemType>::setFileSize(fileSize);
+   // Note: EOF char seems inconsistent on different platforms;
+   //  if char tests fail and off-by-one, uncomment the next 3 lines 
 //   if (std::is_same<ItemType, char>::value) {         // if ItemType is char
 //      --fileSize;                                     // ignore EOF char
 //   }
