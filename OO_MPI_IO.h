@@ -20,13 +20,17 @@
  *
  * Note: OO_MPI_IO uses 'PEs' (processing elements) as a synonym
  *        for threads or processes.
+ *
+ * Note also: To use with Pthreads, in the OO_MPI_IO_Base constructor:
+ *             1. comment out the '#pragma omp barrier' line, and
+ *             2. uncomment the 4 'pthread_barrier' lines.
  */
 
 #ifndef OO_MPI_IO
 #define OO_MPI_IO
 
 #include <mpi.h>                     // C MPI
-#include <omp.h>                     // C OpenMP
+//#include <omp.h>                     // C OpenMP
 #include <string>                    // C++ string 
 #include <cmath>                     // ceil()
 #include <vector>                    // C++ vector
@@ -132,7 +136,7 @@ void checkResult(int result) {
  *           &&  numPEs is the number of threads or processes.
  * Postcondition: if MPI_Init() has not already been called 
  *                 then MPI_Init_thread() has been called
- *           &&   the file has been opened for parallel IO
+ *           &&   the file has been opened 1for parallel IO
  *                 as specified by openMode
  *           &&   each instance variable have been initialized
  *                 as appropriate for this PE.
@@ -171,8 +175,10 @@ OO_MPI_IO_Base(const std::string& fileName, int openMode, MPI_Datatype mpiType,
    // for OpenMP: the main thread needs to call MPI_Init_thread()
    int mpiInitFlag = 0;
    MPI_Initialized(&mpiInitFlag);                    // was MPI_Init() called?
-   if (!mpiInitFlag) {                               // if no: assume OpenMP prog
-      if (omp_get_thread_num() == 0) {               //  if main thread:
+   if (!mpiInitFlag) {                               // if no: assume OpenMP;
+      //pthread_barrier_t barrier;                   //  if using Pthreads,
+      //pthread_barrier_init(&barrier, NULL, numPEs);//   uncomment these
+      if (id == 0) {                                 //  if main thread:
         int modeProvided = 0;                        //   call MPI_Init_thread()
         int initResult = MPI_Init_thread(0, 0,       //   so any thread can make
                                 MPI_THREAD_MULTIPLE, //   MPI calls
@@ -180,9 +186,12 @@ OO_MPI_IO_Base(const std::string& fileName, int openMode, MPI_Datatype mpiType,
         checkResult(initResult);
         myFinalizeFlag = true;                       // set flag for destructor
       }
-                                                     // other threads wait until
-      #pragma omp barrier                            //  MPI_Init_thread() done
-   }                                                 //  or next MPI call may fail
+                                                     // other threads wait 'til
+      #pragma omp barrier                            //  MPI_Init_thread done
+                                                     //  or MPI_File_open may fail
+      //pthread_barrier_wait(&barrier);              // use these instead
+      //pthread_barrier_destroy(&barrier);           //  if using Pthreads
+   }
 
    int openResult = MPI_File_open( MPI_COMM_WORLD,    // communicator
                                     fileName.c_str(), // name of file
@@ -221,7 +230,7 @@ void OO_MPI_IO_Base<ItemType>::setNumPEs(int newNumPEs) {
 template <class ItemType>
 OO_MPI_IO_Base<ItemType>::~OO_MPI_IO_Base() {
    if (myFinalizeFlag &&                   // if MPI_Init() was not called 
-       omp_get_thread_num() == 0) {        //  and we are the main thread,
+        myID == 0) {                       //  and we are the main thread,
          MPI_Finalize();                   //  then we need to finalize
    }
  }
