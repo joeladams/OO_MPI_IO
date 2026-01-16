@@ -1,9 +1,9 @@
-/* readerTester.cpp tests the ParallelReader template.
+/* readerTester.cpp provides basic tests for the ParallelReader template.
  *
  * Joel C. Adams, Calvin University, Fall 2023.
  *
  * Usage: mpirun -np <P> ./readerTester
- *         where P=1, 2, or 3.
+ *         where P = 1, 2, or 3.
  */
 
 #include "DoubleReaderTester.h"
