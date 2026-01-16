@@ -177,7 +177,8 @@ OO_MPI_IO_Base(const std::string& fileName, int openMode, MPI_Datatype mpiType,
    MPI_Initialized(&mpiInitFlag);                    // was MPI_Init() called?
    if (!mpiInitFlag) {                               // if no: assume OpenMP;
       //pthread_barrier_t barrier;                   //  if using Pthreads,
-      //pthread_barrier_init(&barrier, NULL, numPEs);//   uncomment these
+      //pthread_barrier_init(&barrier, NULL, numPEs);//   uncomment these lines
+                                                     //   and the 2 below
       if (id == 0) {                                 //  if main thread:
         int modeProvided = 0;                        //   call MPI_Init_thread()
         int initResult = MPI_Init_thread(0, 0,       //   so any thread can make
@@ -186,11 +187,11 @@ OO_MPI_IO_Base(const std::string& fileName, int openMode, MPI_Datatype mpiType,
         checkResult(initResult);
         myFinalizeFlag = true;                       // set flag for destructor
       }
-                                                     // other threads wait 'til
+                                                     // make threads wait 'til
       #pragma omp barrier                            //  MPI_Init_thread done
                                                      //  or MPI_File_open may fail
-      //pthread_barrier_wait(&barrier);              // use these instead
-      //pthread_barrier_destroy(&barrier);           //  if using Pthreads
+      //pthread_barrier_wait(&barrier);              // replace omp barrier with
+      //pthread_barrier_destroy(&barrier);           //  these to use Pthreads
    }
 
    int openResult = MPI_File_open( MPI_COMM_WORLD,    // communicator
