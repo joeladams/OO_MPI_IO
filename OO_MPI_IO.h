@@ -17,6 +17,8 @@
  *     Also adds method ParallelReader::getChunkPlus(int extras) for 
  *      reading a chunk plus extras items from the next PE's chunk
  *      (useful for search problems where the target spans chunk boundaries).
+ *   Version 2.1, Spring 2026 fixes a missing #include for GNU gcc and
+ *      adds some commented-out hints for using the library with Pthreads.
  *
  * Note: OO_MPI_IO uses 'PEs' (processing elements) as a synonym
  *        for threads or processes.
@@ -24,15 +26,19 @@
  * Note also: To use with Pthreads, in the OO_MPI_IO_Base constructor:
  *             1. comment out the '#pragma omp barrier' line, and
  *             2. uncomment the 4 'pthread_barrier' lines.
+ *            Then comment out the #include <omp.h> and
+ *               uncomment the #include <pthread.h> below.
  */
 
 #ifndef OO_MPI_IO
 #define OO_MPI_IO
 
 #include <mpi.h>                     // C MPI
-//#include <omp.h>                     // C OpenMP
+#include <omp.h>                     // C OpenMP
+//#include <pthread.h>                 // Pthreads
 #include <string>                    // C++ string 
 #include <cmath>                     // ceil()
+#include <climits>                   // INT_MAX
 #include <vector>                    // C++ vector
 
 /********************************************************************
